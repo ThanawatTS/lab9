@@ -7,7 +7,9 @@ public enum Length {
 	MILE("Mile",1609.344),
 	INCH("Inch",0.0254),
 	KILOMETER("Kilometer",1000),
-	WA("Wa",2);
+	WA("Wa",2),
+	CENTIMETER("Centimeter",0.001),
+	YARD("Yard",0.9144);
 	public final String name;
 	public final double value;
 	Length(String name , double value){

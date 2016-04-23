@@ -12,7 +12,7 @@ private JLabel equal;
 private JFrame Title;
 private JPanel panel;
 //....
-public ConverterUI (UnitConverter uc){
+public ConverterUIc (UnitConverter uc){
 	this.unitconverter = uc;
 	this.setTitle("Length Converter");
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);

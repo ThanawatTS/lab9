@@ -21,9 +21,9 @@ import javax.swing.JRadioButton;
 
 public class ConverterUI {
 
-	private JFrame frmDfd;
+	private JFrame Convert;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -33,7 +33,7 @@ public class ConverterUI {
 			public void run() {
 				try {
 					ConverterUI window = new ConverterUI();
-					window.frmDfd.setVisible(true);
+					window.Convert.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -54,50 +54,50 @@ public class ConverterUI {
 	private void initialize() {
 		UnitConverter mainconvert = new UnitConverter();
 		
-		frmDfd = new JFrame();
-		frmDfd.setTitle("Distance Converter");
-		frmDfd.setBounds(100, 100, 680, 101);
-		frmDfd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmDfd.getContentPane().setLayout(null);
+		Convert = new JFrame();
+		Convert.setTitle("Distance Converter");
+		Convert.setBounds(100, 100, 680, 101);
+		Convert.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Convert.getContentPane().setLayout(null);
 		
 	
 		
 		
 		JComboBox unit1ComboBox = new JComboBox(Length.values());
 		unit1ComboBox.setBounds(106, 11, 110, 20);
-		frmDfd.getContentPane().add(unit1ComboBox);
+		Convert.getContentPane().add(unit1ComboBox);
 		
 		JLabel label = new JLabel("=");
 		label.setBounds(226, 14, 14, 14);
-		frmDfd.getContentPane().add(label);
+		Convert.getContentPane().add(label);
 		
 		
 		
 		JComboBox unit2ComboBox = new JComboBox(Length.values());
 		unit2ComboBox.setBounds(357, 11, 110, 20);
-		frmDfd.getContentPane().add(unit2ComboBox);
+		Convert.getContentPane().add(unit2ComboBox);
 		
-		JRadioButton rdbtnLeftright = new JRadioButton("Left->Right");
-		rdbtnLeftright.setBounds(208, 39, 109, 23);
-		rdbtnLeftright.addActionListener(new ActionListener(){
+		JRadioButton radioLtoR = new JRadioButton("Left->Right");
+		radioLtoR.setBounds(208, 39, 109, 23);
+		radioLtoR.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				textField_1.setEditable(false);
+				textField_2.setEditable(false);
 				textField.setEditable(true);
 			}});
-		frmDfd.getContentPane().add(rdbtnLeftright);
+		Convert.getContentPane().add(radioLtoR);
 		
-		JRadioButton rdbtnRightleft = new JRadioButton("Right->Left");
-		rdbtnRightleft.setBounds(342, 38, 109, 23);
-		rdbtnRightleft.addActionListener(new ActionListener(){
+		JRadioButton radioRtoL = new JRadioButton("Right->Left");
+		radioRtoL.setBounds(342, 38, 109, 23);
+		radioRtoL.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				textField.setEditable(false);
-				textField_1.setEditable(true);
+				textField_2.setEditable(true);
 		}});
-		frmDfd.getContentPane().add(rdbtnRightleft);
+		Convert.getContentPane().add(radioRtoL);
 		
 		ButtonGroup radio1 = new ButtonGroup();
-		radio1.add(rdbtnLeftright);
-		radio1.add(rdbtnRightleft);
+		radio1.add(radioLtoR);
+		radio1.add(radioRtoL);
 		
 		JButton btnConvert = new JButton("Convert!");
 		btnConvert.setBounds(478, 10, 89, 23);
@@ -105,27 +105,27 @@ public class ConverterUI {
 			
 			public void actionPerformed(ActionEvent e){
 				
-				if(rdbtnLeftright.isSelected())
-				textField_1.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField.getText()),(Length)unit1ComboBox.getSelectedItem(), (Length)unit2ComboBox.getSelectedItem()))));
+				if(radioLtoR.isSelected())
+				textField_2.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField.getText()),(Length)unit1ComboBox.getSelectedItem(), (Length)unit2ComboBox.getSelectedItem()))));
 				
-				else if (rdbtnRightleft.isSelected())			
-				textField.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField_1.getText()),(Length)unit2ComboBox.getSelectedItem(), (Length)unit1ComboBox.getSelectedItem()))));	
+				else if (radioRtoL.isSelected())			
+				textField.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField_2.getText()),(Length)unit2ComboBox.getSelectedItem(), (Length)unit1ComboBox.getSelectedItem()))));	
 			
 			}
 			
 		});
 		
-		frmDfd.getContentPane().add(btnConvert);
+		Convert.getContentPane().add(btnConvert);
 		
 		JButton btnClear = new JButton("Clear");
 		btnClear.setBounds(577, 10, 76, 23);
 		btnClear.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				textField_1.setText("");
+				textField_2.setText("");
 				textField.setText("");
 			}
 		});
-		frmDfd.getContentPane().add(btnClear);
+		Convert.getContentPane().add(btnClear);
 		
 		
 		textField = new JTextField();
@@ -133,11 +133,11 @@ public class ConverterUI {
 		textField.addKeyListener(new KeyListener(){
 			   public void keyReleased(KeyEvent e) {
 			       if (e.getKeyCode()==KeyEvent.VK_ENTER){
-			    		if(rdbtnLeftright.isSelected())
-							textField_1.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField.getText()),(Length)unit1ComboBox.getSelectedItem(), (Length)unit2ComboBox.getSelectedItem()))));
+			    		if(radioLtoR.isSelected())
+							textField_2.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField.getText()),(Length)unit1ComboBox.getSelectedItem(), (Length)unit2ComboBox.getSelectedItem()))));
 							
-							else if (rdbtnRightleft.isSelected())			
-							textField.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField_1.getText()),(Length)unit2ComboBox.getSelectedItem(), (Length)unit1ComboBox.getSelectedItem()))));	
+							else if (radioRtoL.isSelected())			
+							textField.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField_2.getText()),(Length)unit2ComboBox.getSelectedItem(), (Length)unit1ComboBox.getSelectedItem()))));	
 						
 			       }
 			   }
@@ -147,19 +147,19 @@ public class ConverterUI {
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}});
-		frmDfd.getContentPane().add(textField);
+		Convert.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(250, 11, 97, 20);
-		textField_1.addKeyListener(new KeyListener(){
+		textField_2 = new JTextField();
+		textField_2.setBounds(250, 11, 97, 20);
+		textField_2.addKeyListener(new KeyListener(){
 			   public void keyReleased(KeyEvent e) {
 			       if (e.getKeyCode()==KeyEvent.VK_ENTER){
-			    		if(rdbtnLeftright.isSelected())
-							textField_1.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField.getText()),(Length)unit1ComboBox.getSelectedItem(), (Length)unit2ComboBox.getSelectedItem()))));
+			    		if(radioLtoR.isSelected())
+							textField_2.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField.getText()),(Length)unit1ComboBox.getSelectedItem(), (Length)unit2ComboBox.getSelectedItem()))));
 							
-							else if (rdbtnRightleft.isSelected())			
-							textField.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField_1.getText()),(Length)unit2ComboBox.getSelectedItem(), (Length)unit1ComboBox.getSelectedItem()))));	
+							else if (radioRtoL.isSelected())			
+							textField.setText(String.valueOf(String.format("%.4f",mainconvert.convert(Double.parseDouble(textField_2.getText()),(Length)unit2ComboBox.getSelectedItem(), (Length)unit1ComboBox.getSelectedItem()))));	
 						
 			       }
 			   }
@@ -169,8 +169,8 @@ public class ConverterUI {
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}});
-		frmDfd.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		Convert.getContentPane().add(textField_2);
+		textField_2.setColumns(10);
 		
 		
 	}

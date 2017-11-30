@@ -1,0 +1,160 @@
+{% load static %}
+{% block style %}
+<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>    
+<style type="text/css">
+    .form-style-8{
+        font-family: 'Open Sans Condensed', arial, sans;
+        width: 500px;
+        padding: 30px;
+        background: #FFFFFF;
+        margin: 50px auto;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+        -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+        -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
+    
+    }
+    .form-style-8 input[type="text"],
+    .form-style-8 select 
+    {
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        display: block;
+        width: 30%;
+        padding: 7px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        background: transparent;
+        margin-bottom: 10px;
+        font: 16px Arial, Helvetica, sans-serif;
+        height: 45px;
+    }
+    .form-style-8 input[type="submit"]{
+        -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+        -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+        box-shadow: inset 0px 1px 0px 0px #45D6D6;
+        background-color: #2CBBBB;
+        border: 1px solid #27A0A0;
+        display: inline-block;
+        cursor: pointer;
+        color: #FFFFFF;
+        font-family: 'Open Sans Condensed', sans-serif;
+        font-size: 14px;
+        padding: 8px 18px;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+    .form-style-8 input[type="button"]:hover, 
+    .form-style-8 input[type="submit"]:hover {
+        background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
+        background-color:#34CACA;
+    }
+    </style>
+{% endblock %}
+<nav class="nav">
+    <div class="brand">
+        <a href="{% url 'main:index' %}">
+            <img src="{% static 'imgs/brand_logo_inverse.png' %}" alt="brand-logo" class="brand-logo">
+        </a>
+    </div>
+    <div class="form-style-8">
+    <form action="{% url 'main:catalogue' %}" method="GET" id="searchform">
+		<input type="text" name="q" placeholder="Search Here">
+		<input type="submit" value="search">
+		<!--<input type="checkbox" name="price">price</input>
+		<input type="checkbox" name="brand">brand</input>
+	    <input type="checkbox" name="name">name</input>-->
+        <select name="choice">
+        <option value="price" name="price">price</option>
+        <option value="brand" name="brand">brand</option>
+        <option value="name" name="name">name</option>
+        </select>
+    </form>
+    </div>
+    <div class="action">
+        <button class="btn btn-icon" id="basket-toggler">
+            <img src="{% static 'imgs/shopping_basket_black.svg' %}" alt="shopping-basket">
+        </button>
+        <button class="btn btn-icon" id="hamburger-toggler">
+            <img src="{% static 'imgs/menu_black.svg' %}" alt="menu">
+        </button>
+    </div>
+</nav>
+<div class="collapse-menu" id="basket-menu">
+    <p>Hello, <strong>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'main:cart' %}" class="unstyled-link">{{ request.user }}</a>
+        {% else %}
+            <a href="{% url 'main:login' %}" class="unstyled-link">Guest</a>
+        {% endif %}
+    </strong>
+    </p>
+    <h1 class="ml-16">Cart</h1>
+    {% if cart %}
+        <div class="total-section">
+            <strong>PRODUCT NAME</strong>
+            <span>PRICE</span>
+        </div>
+        <div class="dot-divider"></div>
+        {% for order in cart %}
+            <div class="total-section">
+                <strong>
+                    <a href="{% url 'main:product_detail' order.product.pk %}" class="unstyled-link">
+                        {{ order.product.name }} x {{ order.amount }}
+                    </a>
+                </strong>
+                <span> {{ order.get_total_price }} </span>
+            </div>
+        {% endfor %}
+        <div class="dot-divider"></div>
+        <div class="total-section">
+            <strong>SUBTOTAL: </strong>
+            <span>{{ sub_total_price }}</span>
+        </div>
+        <a href="{% url 'main:cart' %}" class="btn btn-default ml-16">CHECKOUT</a>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+<div class="collapse-menu" id="hamburger-menu">
+    <ul class="collapse-ul">
+        {% if request.user.is_authenticated %}
+            <li class="collapse-li">
+                <a href="{% url 'main:profile_dashboard' %}" class="unstyled-link">
+                    <strong>Your account</strong>
+                </a>
+            </li>
+        {% endif %}
+        <li class="collapse-li">
+            <a href="{% url 'main:catalogue' %}" class="unstyled-link"><strong>Guys</strong></a>
+        </li>
+        <li class="collapse-li">
+            <a href="{% url 'main:catalogue' %}" class="unstyled-link"><strong>Girls</strong></a>
+        </li>
+        <li class="collapse-li">
+            <a href="{% url 'main:catalogue' %}" class="unstyled-link"><strong>Editorial</strong></a>
+        </li>
+        <li class="collapse-li">
+            <a href="{% url 'main:catalogue' %}" class="unstyled-link"><strong>Search</strong></a>
+        </li>
+        <li class="collapse-li">
+            <a href="{% url 'main:catalogue' %}" class="unstyled-link"><strong>Contact Us</strong></a>
+        </li>
+        <li class="collapse-li">
+            <a href="{% url 'main:catalogue' %}" class="unstyled-link"><strong>Visit Us</strong></a>
+        </li>
+        {% if not request.user.is_authenticated %}
+            <li class="collapse-li">
+                <a href="{% url 'main:login' %}" class="unstyled-link"><strong>Sign In / Register</strong></a>
+            </li>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <li class="collapse-li">
+            <a href="{% url 'main:logout' %}" class="unstyled-link">
+                <strong>Sign out</strong>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

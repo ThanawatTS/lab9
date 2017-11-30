@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <title>Payment Slip</title>
+</head>
+<body>
+<div class="flex-col mr-32 ml-32">
+    <div class="flex-row">
+        <div class="mr-16">
+            <img src="{% static 'imgs/brand_logo_inverse.svg' %}" alt="brand-logo" width="100" height="100">
+        </div>
+        <div class="ml-16 mb-32">
+            <div>Airy Co.Ltd;</div>
+            <div>40 Naknivat 3 Ladproa Bangkok 10250</div>
+            <div>
+                Advice Online Tel.0972768430
+            </div>
+            <div>
+                LINE : @AiryCom (Office hour 9.00 am - 6.00 pm)
+
+            </div>
+            <div>
+                Tax ID 01-2555-5014685
+
+            </div>
+        </div>
+    </div>
+    <div class="flex-row mb-32">
+        <table class="w-50">
+            <tr>
+                <th class="bg-brown">Address to delivery</th>
+            </tr>
+            <tr>
+                <td><strong>Name: </strong> {{ request.user }}</td>
+            </tr>
+            <tr>
+                <td><strong>Address: </strong> Middle of nowhere</td>
+            </tr>
+        </table>
+        <table class="w-50">
+            <tr>
+                <th class="bg-brown">Transaction Detail</th>
+            </tr>
+            <tr>
+                <td><strong>Date: </strong> {{ transaction.date }}</td>
+            </tr>
+            <tr>
+                <td><strong>Customer ID: </strong> {{ request.user.pk }}</td>
+            <tr>
+                <td><strong>Transaction ID:</strong> {{ transaction.pk }}</td>
+            </tr>
+        </table>
+    </div>
+    <table class="full-width mb-32">
+        <tr class="bg-brown">
+            <th class="w-20">ID</th>
+            <th class="w-20">Name</th>
+            <th class="w-20">Price</th>
+            <th class="w-20">Amount</th>
+            <th class="w-20">Total</th>
+        </tr>
+        {% for object in object_list %}
+            <tr>
+                <td>{{ object.pk }}</td>
+                <td>{{ object.product.name }}</td>
+                <td>{{ object.product.price }}</td>
+                <td>{{ object.amount }}</td>
+                <td>{{ object.get_total_price }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>Subtotal</th>
+            <td>{{ transaction.get_sub_total_price }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>Shipping fee</th>
+            <td>{{ transaction.get_shipping_fee }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>Grand total</th>
+            <td>{{ transaction.get_grand_total_price }}</td>
+        </tr>
+    </table>
+    <div class="bg-brown text-c pa8">
+        <h1>Pay in slip</h1>
+    </div>
+    <div class="flex-row full-width space-around align-items-center mb-32">
+        <div class="flex-col pa8 w-40">
+            <img src="{% static 'imgs/brand_logo_inverse.svg' %}" alt="brand-logo" width="100" height="100">
+            <div>
+                Airy Co.Ltd;
+            </div>
+            <div>
+                Tax ID 01-2555-5014685
+            </div>
+            <div>
+                Account name : Airy.Co.Ltd;
+            </div>
+        </div>
+        <div class="pa8 w-40">
+            <table>
+                <thead>
+                <tr>
+                    <td>Branch:..................................</td>
+                    <td>Date:......................................</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><strong>Customers name: </strong></td>
+                    <td>{{ request.user }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Customers ID: </strong></td>
+                    <td>{{ request.user.pk }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Transaction ID: </strong></td>
+                    <td>{{ transaction.pk }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Grand Total: </strong></td>
+                    <td>{{ transaction.get_grand_total_price }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div class="full-width bg-brown pa8">
+            <h1 class="text-c">Bank Tranfer</h1>
+        </div>
+        <div class="flex-row mt-16 wrap">
+            <div class="flex-row align-items-center w-50">
+                <div class="mr-16">
+                    <img src="{% static 'imgs/logo_scb.png' %}" alt="logo_scb" width="50">
+                </div>
+                <div>
+                    <div>
+                        Siam Commercial Bank
+                    </div>
+                    <div class="">
+                        Account name : Airy.Co.Ltd;
+                    </div>
+                    <div class="">
+                        Account number 468-0-66437-5 
+                    </div>
+
+                </div>
+            </div>
+            <div class="flex-row align-items-center w-50">
+                <div class="mr-16">
+                    <img src="{% static 'imgs/logo-ayudhya.jpg' %}" alt="logo_ayudhya" width="50">
+                </div>
+                <div>
+                    <div>
+                        Krungsri Bank
+                    </div>
+                    <div class="">
+                        Account name : Airy.Co.Ltd;
+                    </div>
+                    <div class="">
+                        Account number : 528-0-00305-1 
+                    </div>
+
+                </div>
+            </div>
+            <div class="flex-row align-items-center w-50">
+                <div class="mr-16">
+                    <img src="{% static 'imgs/logo_bangkok_bank.png' %}" alt="logo_bangkok" width="50">
+                </div>
+                <div>
+                    <div>
+                        Krungthep Bank
+                    </div>
+                    <div class="">
+                        Account name : Airy.Co.Ltd;
+                    </div>
+                    <div class="">
+                        Account number : 221-3-04379-3 
+                    </div>
+                </div>
+            </div>
+            <div class="flex-row align-items-center w-50">
+                <div class="mr-16">
+                    <img src="{% static 'imgs/logo_kbank.png' %}" alt="logo_kbank" width="50">
+                </div>
+                <div>
+                    <div>
+                        Kasikorn Bank
+                    </div>
+                    <div class="">
+                        Account name : Airy.Co.Ltd;
+                    </div>
+                    <div class="">
+                        Account number : 468-0-66437-5 
+                    </div>
+                </div>
+            </div>
+            <div class="flex-row align-items-center w-50">
+                <div class="mr-16">
+                    <img src="{% static 'imgs/logo_kcb.png' %}" alt="logo_kcb" width="50">
+                </div>
+                <div>
+                    <div>
+                        KrungThep Bank
+                    </div>
+                    <div class="">
+                        Account name : Airy.Co.Ltd;
+                    </div>
+                    <div class="">
+                        Account number : 986-4-55233-3 
+                    </div>
+                </div>
+            </div>
+            <div class="flex-row align-items-center w-50">
+                <div class="mr-16">
+                    <img src="{% static 'imgs/logo_promptpay.png' %}" alt="logo_promptpay" width="50">
+                </div>
+                <div>
+                    <div>
+                        Account name : Airy.Co.Ltd;
+                    </div>
+                    <div class="">
+                        Promtpay : 0 1255 5501 4685
+                    </div>
+                    <div class="">
+                        (Transfer more than 500 Bath Free transfer fee)
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
